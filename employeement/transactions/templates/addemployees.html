@@ -1,0 +1,138 @@
+
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block title %} New Purchase {% endblock title %}
+
+
+{% block content %}
+<div style="color:#ea2088; font-style: bold; font-size: 3rem; border-bottom: 1px solid white;">New Employees</div>
+    
+        <br>
+
+        <div class="panel panel-default">
+            <div class="panel-heading panel-heading-text">Employee Details</div>
+            <div class="panel-body">
+
+<form method="post" action="">
+
+    {% csrf_token %}
+    <div class="form-group">
+<label class="panel-body-text" >Employee Name</label>
+<input type="text" class="form-control textinput" name="name">
+<br>
+
+<label  class="panel-body-text">Address</label>
+<input type="text" class="form-control textinput" name="address">
+   
+<label class="panel-body-text">Age</label>
+<input type="text" class="form-control textinput" name="age">
+
+<label class="panel-body-text">Salary</label>
+<input type="text" class="form-control textinput" name="salary">
+
+<label class="panel-body-text">Designation</label>
+<input type="text" class="form-control textinput" name="designation">
+    
+<label class="panel-body-text">Phone Number</label>
+<input type="text" class="form-control textinput" name="phonenumber">
+
+<label class="panel-body-text">Email</label>
+<input type="text"class="form-control textinput" name="email">
+ 
+<button type="submit" class="btn ghost-green">Submit</button>
+
+
+</form>
+
+<!-- Custom JS to add and remove item forms -->
+<script type="text/javascript" src="{% static 'js/jquery-3.2.1.slim.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/dialogbox.js' %}"></script>
+<script type="text/javascript">
+    
+    //creates custom alert object
+    var custom_alert = new custom_alert();
+
+    function updateElementIndex(el, prefix, ndx) {
+        var id_regex = new RegExp('(' + prefix + '-\\d+)');
+        var replacement = prefix + '-' + ndx;
+        if ($(el).attr("for")) $(el).attr("for", $(el).attr("for").replace(id_regex, replacement));
+        if (el.id) el.id = el.id.replace(id_regex, replacement);
+        if (el.name) el.name = el.name.replace(id_regex, replacement);
+    }
+    
+    //stores the total no of item forms
+    var total = 1;
+
+    function cloneMore(selector, prefix) {
+        var newElement = $(selector).clone(true);
+        //var total = $('#id_' + prefix + '-TOTAL_FORMS').val();
+        newElement.find(':input:not([type=button]):not([type=submit]):not([type=reset])').each(function() {
+            var name = $(this).attr('name')
+            if(name) {
+                name = name.replace('-' + (total-1) + '-', '-' + total + '-');
+                var id = 'id_' + name;
+                $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
+            }
+        });
+        newElement.find('label').each(function() {
+            var forValue = $(this).attr('for');
+            if (forValue) {
+            forValue = forValue.replace('-' + (total-1) + '-', '-' + total + '-');
+            $(this).attr({'for': forValue});
+            }
+        });
+        total++;
+        $('#id_' + prefix + '-TOTAL_FORMS').val(total);
+        $(selector).after(newElement);
+        return false;
+    }
+    
+    function deleteForm(prefix, btn) {
+        //var total = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
+        if (total > 1){
+            btn.closest('.form-row').remove();
+            var forms = $('.form-row');
+            $('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
+            for (var i=0, formCount=forms.length; i<formCount; i++) {
+                $(forms.get(i)).find(':input').each(function() {
+                    updateElementIndex(this, prefix, i);
+                });
+            }
+            total--;
+        } else {
+            custom_alert.render("Field cannot be deleted");
+        }
+        return false;
+    }
+    
+    $(document).on('click', '.add-form-row', function(e){
+        e.preventDefault();
+        cloneMore('.form-row:last', 'form');
+        return false;
+    });
+    
+    $(document).on('click', '.remove-form-row', function(e){
+        e.preventDefault();
+        deleteForm('form', $(this));
+        return false;
+    });
+
+
+    //updates the total price by multiplying 'price per item' and 'quantity' 
+    $(document).on('change', '.setprice', function(e){
+        e.preventDefault();
+        //gets the values
+        var element = $(this);
+        var quantity = element.parents('.form-row').find('.quantity').val();
+        var perprice = element.parents('.form-row').find('.price').val();
+        //calculates the total
+        var tprice = quantity * perprice;
+        //sets it to field
+        element.parents('.form-row').find('.totalprice').val(tprice);
+        return false;
+    });
+
+</script>
+{% endblock content %}

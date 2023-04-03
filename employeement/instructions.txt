@@ -1,0 +1,25 @@
+fitst install all requirements by pip ninstall -r requirements.txt
+
+
+create super user or use the default admin user id and password
+id: invadmin
+password:invadmin
+
+
+for expenses option,go to admin page
+
+use add expenses option
+
+you can create new supplier
+then add new stock
+
+thn add new incoming stock
+
+sales---> new outgoing sale , for daily sales.
+bills will be automatically generated 
+
+on clicking sales, you can see previous recent sales
+on clicking admin page, on new tab, u can see expenses
+you can delete expense or add new expense
+
+
