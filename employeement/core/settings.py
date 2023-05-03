@@ -40,7 +40,7 @@ INSTALLED_APPS = [
 
     'widget_tweaks',                            # uses 'django-widget-tweaks' app
     'crispy_forms',                             # uses 'django-crispy-forms' app
-    'login_required',                           # uses 'django-login-required-middleware' app
+    'login_required',                          # uses 'django-login-required-middleware' app
 
     'homepage.apps.HomepageConfig',
     'inventory.apps.InventoryConfig',

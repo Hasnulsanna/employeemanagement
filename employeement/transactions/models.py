@@ -22,10 +22,11 @@ class PurchaseBill(models.Model):
     supplier = models.ForeignKey(Supplier, on_delete = models.CASCADE, related_name='purchasesupplier')
 
     def __str__(self):
-	    return "Bill no: " + str(self.billno)
+         return "Bill no: " + str(self.billno)
+
 
     def get_items_list(self):
-        return PurchaseItem.objects.filter(billno=self)
+         return PurchaseItem.objects.filter(billno=self)
 
     def get_total_price(self):
         purchaseitems = PurchaseItem.objects.filter(billno=self)
@@ -77,7 +78,7 @@ class SaleBill(models.Model):
     gstin = models.CharField(max_length=15)
 
     def __str__(self):
-	    return "Bill no: " + str(self.billno)
+         return "Bill no: " + str(self.billno)
 
     def get_items_list(self):
         return SaleItem.objects.filter(billno=self)
